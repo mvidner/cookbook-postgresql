@@ -22,6 +22,7 @@
 ::Chef::Recipe.send(:include, Opscode::PostgresqlHelpers)
 
 begin
+  require 'rubygems'  # for ruby 1.8 where rubygems isn't loaded by default
   require 'pg'
 rescue LoadError
   execute "apt-get update" do

@@ -105,16 +105,16 @@ when "redhat", "centos", "scientific", "oracle"
 
 when "suse"
 
-  if node['platform_version'].to_f <= 11.1
-    default['postgresql']['version'] = "8.3"
-  else
-    default['postgresql']['version'] = "9.0"
+  default['postgresql']['version'] = "9.1"
+  postgresql_base = "postgresql"
+  if node['platform_version'] >= "11.2"
+    postgresql_base += default['postgresql']['version'].split('.').join
   end
 
   default['postgresql']['dir'] = "/var/lib/pgsql/data"
-  default['postgresql']['client']['packages'] = %w{postgresql-devel}
-  default['postgresql']['server']['packages'] = %w{postgresql-server}
-  default['postgresql']['contrib']['packages'] = %w{postgresql-contrib}
+  default['postgresql']['client']['packages'] = ["#{postgresql_base}", "rubygem-pg"]
+  default['postgresql']['server']['packages'] = ["#{postgresql_base}-server"]
+  default['postgresql']['contrib']['packages'] = ["#{postgresql_base}-contrib"]
   default['postgresql']['server']['service_name'] = "postgresql"
 
 else

@@ -51,7 +51,13 @@ node['postgresql']['server']['packages'].each do |pg_pack|
 
 end
 
-template "/etc/sysconfig/pgsql/#{node['postgresql']['server']['service_name']}" do
+if platform_family?("suse")
+  sysconf = "/etc/sysconfig/#{node['postgresql']['server']['service_name']}"
+else
+  sysconf = "/etc/sysconfig/pgsql/#{node['postgresql']['server']['service_name']}"
+end
+template "pgsql sysconfig" do
+  name sysconf
   source "pgsql.sysconfig.erb"
   mode "0644"
   notifies :restart, "service[postgresql]", :delayed

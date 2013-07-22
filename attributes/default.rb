@@ -107,7 +107,9 @@ when "suse"
 
   default['postgresql']['version'] = "9.1"
   postgresql_base = "postgresql"
-  if node['platform_version'] >= "11.2"
+  # On SLE11 since SP2, the unsuffixed version is too old (8.3).
+  # Newer openSUSE either have a sane default again or are out of maintenance.
+  if node['platform_version'] =~ /^11.[234]$/
     postgresql_base += default['postgresql']['version'].split('.').join
   end
 

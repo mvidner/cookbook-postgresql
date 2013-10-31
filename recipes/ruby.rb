@@ -21,6 +21,9 @@
 # Load the pgdgrepo_rpm_info method from libraries/default.rb
 ::Chef::Recipe.send(:include, Opscode::PostgresqlHelpers)
 
+ruby_block "get pg.gem" do
+  block do
+
 begin
   require 'rubygems'  # for ruby 1.8 where rubygems isn't loaded by default
   require 'pg'
@@ -115,5 +118,8 @@ EOS
     spec_installer.run_action(:run)
 
     Chef::Log.warn 'Installation of pg gem successful!'
+  end
+end
+
   end
 end

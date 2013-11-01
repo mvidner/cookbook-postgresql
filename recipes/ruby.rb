@@ -26,6 +26,8 @@ ruby_block "get pg.gem" do
 
 begin
   require 'rubygems'  # for ruby 1.8 where rubygems isn't loaded by default
+  # to find a gem that has been installed since this ruby started
+  Gem.clear_paths
   require 'pg'
 rescue LoadError
   execute "apt-get update" do
